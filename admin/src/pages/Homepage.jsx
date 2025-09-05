@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { ListFilter } from "lucide-react"
 import SubjectCard from "./SubjectCard"
 import axios from 'axios'
+import { backendUrl } from "../App"
 
 function HomePage() {
     const navigate = useNavigate()
@@ -14,7 +15,7 @@ function HomePage() {
 
     const getSubjectsData = async () => {
         try {
-            const response = await axios.get("/api/v1/subject/getSubjects")
+            const response = await axios.get(`${backendUrl}/api/v1/subject/getSubjects`, { withCredentials: true })
             if(response.data.success){
                 setSubjectsData(response.data.subjectsData)
             }

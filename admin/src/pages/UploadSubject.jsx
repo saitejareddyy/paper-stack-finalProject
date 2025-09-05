@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { backendUrl } from "../App";
 
 function UploadSubject() {
   const [title, setTitle] = useState("");
@@ -41,7 +42,7 @@ function UploadSubject() {
     uploadData.append("faculty", faculty);
 
     try {
-      const response = await axios.post("/api/v1/subject/add", uploadData);
+      const response = await axios.post(`${backendUrl}/api/v1/subject/add`, uploadData, { withCredentials: true });
       if (response.data.success) {
         toast.success(response.data.message);
         navigate("/"); // redirect to homepage

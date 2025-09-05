@@ -3,6 +3,7 @@ import { useState } from 'react'
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import useStore from '../context/UseStore';
+import { backendUrl } from '../App';
 
 function UploadNotes() {
     const [title, setTile] = useState("");
@@ -23,7 +24,7 @@ function UploadNotes() {
         if(notesPdf) uploadData.append("notesPdf", notesPdf)
 
         try {
-            const response = await axios.post("/api/v1/notes/add", uploadData)
+            const response = await axios.post(`${backendUrl}/api/v1/notes/add`, uploadData, { withCredentials: true })
             if(response.data.success){
                 setNotesData((prev) => [...prev, response.data.note]);
                 toast.success(response.data.message)

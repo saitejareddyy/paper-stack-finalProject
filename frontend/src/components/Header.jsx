@@ -3,6 +3,7 @@ import toast from "react-hot-toast"
 import useStore from "../context/UseStore"
 import { Search } from "lucide-react";
 import { Link } from "react-router-dom";
+import { backendUrl } from "../App";
 
 function Header() {
 
@@ -10,7 +11,7 @@ function Header() {
 
     const handleLgout = async () => {
         try {
-            const response = await axios.get("/api/v1/auth/logout")
+            const response = await axios.get(`${backendUrl}/api/v1/auth/logout`, {withCredentials: true})
             if (response.data.success) {
                 setUser(null);
                 toast.success(response.data.message);

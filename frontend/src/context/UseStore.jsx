@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
+import { backendUrl } from "../App";
 
 
 const SubjectContext  = createContext({})
@@ -15,7 +16,7 @@ export const SubjectProvider = ({ children }) => {
 
     const getSubjectsData = async () => {
         try {
-            const response = await axios.get("/api/v1/subject/getSubjects")
+            const response = await axios.get(`${backendUrl}/api/v1/subject/getSubjects`, { withCredentials: true })
             if(response.data.success){
                 setSubjectsData(response.data.subjectsData)
             }
@@ -26,7 +27,7 @@ export const SubjectProvider = ({ children }) => {
 
     const getNotesData = async () => {
         try {
-            const response = await axios.get("/api/v1/notes/getNotes");
+            const response = await axios.get(`${backendUrl}/api/v1/notes/getNotes`, { withCredentials: true });
             if(response.data.success){
                 setNotesData(response.data.notesData);
                 console.log("notes data response: ", response.data.notesData);

@@ -5,6 +5,9 @@ import UploadSubject from './pages/UploadSubject'
 import SubjectDetails from './pages/SubjectDetails'
 import { Toaster } from 'react-hot-toast'
 
+
+export const backendUrl = 'http://localhost:5050' 
+
 function App() {
   return (
     <div>

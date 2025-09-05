@@ -11,13 +11,15 @@ import Header from './components/Header'
 import DisplayNotes from "./pages/DisplayNotes";
 import UploadNotes from "./pages/UploadNotes";
 
+export const backendUrl = "http://localhost:5050"
+
 function App() {
 	const { user, isCheckingAuth, setIsCheckingAuth, setUser } = useStore();
 
 	const checkAuth = async () => {
 		setIsCheckingAuth(true);
 		try {
-			const response = await axios.get("/api/v1/auth/authCheck", {
+			const response = await axios.get(`${backendUrl}/api/v1/auth/authCheck`, {
 				withCredentials: true,
 			});
 			if (response.data.success) {

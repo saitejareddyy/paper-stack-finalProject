@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { backendUrl } from "../App";
 
 function SubjectDetails() {
   const { id } = useParams();
@@ -8,7 +9,7 @@ function SubjectDetails() {
 
   const getData = async () => {
     try {
-      const response = await axios.get(`/api/v1/subject/${id}/getSubject`);
+      const response = await axios.get(`${backendUrl}/api/v1/subject/${id}/getSubject`, { withCredentials: true });
       if (response.data.success) {
         setSubjectData(response.data.subject);
       }

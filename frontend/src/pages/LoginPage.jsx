@@ -3,6 +3,7 @@ import useStore from "../context/UseStore"
 import axios from "axios"
 import toast from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
+import { backendUrl } from "../App"
 
 function LoginPage() {
 	const [isLogin, setIsLogin] = useState(true)
@@ -17,10 +18,10 @@ function LoginPage() {
 		e.preventDefault()
 
 		try {
-			const endpoint = isLogin ? "/api/v1/auth/login" : "/api/v1/auth/register"
+			const endpoint = isLogin ? `${backendUrl}/api/v1/auth/login` : `${backendUrl}/api/v1/auth/register`
 			const payload = isLogin ? { email, password } : { username, email, password }
 
-			const { data } = await axios.post(endpoint, payload)
+			const { data } = await axios.post(endpoint, payload,  { withCredentials: true })
 
 			if (data.success) {
 				setUser(data.user)

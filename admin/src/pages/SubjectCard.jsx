@@ -2,13 +2,14 @@ import axios from "axios";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { backendUrl } from "../App";
 
 function SubjectCard({ id, branch, image, title, onClick, setSubjectsData }) {
     const [imgError, setImgError] = useState(false);
 
     const handleDeleteSubject = async () => {
         try {
-            const response = await axios.delete(`/api/v1/subject/${id}`)
+            const response = await axios.delete(`${backendUrl}/api/v1/subject/${id}`, { withCredentials: true })
             if (response.data.success) {
                 toast.success(response.data.message)
                 setSubjectsData(prev => prev.filter(sub => sub._id !== id));

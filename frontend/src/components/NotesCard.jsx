@@ -2,13 +2,14 @@ import axios from "axios";
 import { FileText, Heart, Trash2, User } from "lucide-react";
 import useStore from "../context/UseStore";
 import toast from "react-hot-toast";
+import { backendUrl } from "../App";
 
 function NotesCard({ id, title, notes, uploadedBy, createdAt, likes }) {
     const { setNotesData, user } = useStore();
 
     const handleLikes = async () => {
         try {
-            const response = await axios.put(`/api/v1/notes/${id}/isliked`);
+            const response = await axios.put(`${backendUrl}/api/v1/notes/${id}/isliked`,{}, { withCredentials: true });
             console.log("like response: ", response.data);
 
             if (response.data.success) {
@@ -34,7 +35,7 @@ function NotesCard({ id, title, notes, uploadedBy, createdAt, likes }) {
 
     const handleDeleteNotes = async () => {
         try {
-            const response = await axios.delete(`/api/v1/notes/${id}`)
+            const response = await axios.delete(`${backendUrl}/api/v1/notes/${id}`, { withCredentials: true })
             if (response.data.success) {
                 toast.success(response.data.message)
             }
@@ -62,7 +63,7 @@ function NotesCard({ id, title, notes, uploadedBy, createdAt, likes }) {
                         {title}
                     </h2>
 
-                    <Trash2 onClick={handleDeleteNotes} className="text-red-500" />
+                    <Trash2 onClick={handleDeleteNotes} className="text-red-500 cursor-pointer" />
                 </div>
 
 
@@ -85,7 +86,7 @@ function NotesCard({ id, title, notes, uploadedBy, createdAt, likes }) {
                         href={notes}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-4 py-2 bg-[#24CFA6] text-black rounded text-sm font-medium hover:bg-red-700 transition-colors"
+                        className="px-4 py-2 bg-[#24CFA6] text-black rounded text-sm font-medium transition-colors"
                     >
                         View Notes
                     </a>
