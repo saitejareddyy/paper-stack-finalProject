@@ -4,16 +4,19 @@ import useStore from "../context/UseStore"
 import { Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { backendUrl } from "../App";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
 
     const { setUser } = useStore();
+    const navigate = useNavigate();
 
     const handleLgout = async () => {
         try {
             const response = await axios.get(`${backendUrl}/api/v1/auth/logout`, {withCredentials: true})
             if (response.data.success) {
                 setUser(null);
+                navigate("/login"); 
                 toast.success(response.data.message);
             }
             else {
