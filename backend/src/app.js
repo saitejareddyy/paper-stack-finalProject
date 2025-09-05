@@ -6,7 +6,7 @@ import cors from 'cors'
 const app = express();
 
 const allowedOrigins = [
-  "http://localhost:5173",
+  "https://paper-stack-finalproject-frontend.onrender.com",
   "http://localhost:5174"
 ];
 
