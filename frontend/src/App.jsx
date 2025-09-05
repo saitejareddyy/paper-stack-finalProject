@@ -11,7 +11,7 @@ import Header from './components/Header'
 import DisplayNotes from "./pages/DisplayNotes";
 import UploadNotes from "./pages/UploadNotes";
 
-export const backendUrl = "http://localhost:5050"
+export const backendUrl = "https://paper-stack-finalproject-backend.onrender.com"
 
 function App() {
 	const { user, isCheckingAuth, setIsCheckingAuth, setUser } = useStore();
