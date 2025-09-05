@@ -7,7 +7,7 @@ const app = express();
 
 const allowedOrigins = [
   "https://paper-stack-finalproject-frontend.onrender.com",
-  "http://localhost:5174"
+  "https://paper-stack-finalproject-admin.onrender.com"
 ];
 
 app.use(express.json())
