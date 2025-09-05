@@ -9,7 +9,7 @@ const SubjectContext  = createContext({})
 export const SubjectProvider = ({ children }) => {
 
     const [user, setUser] = useState(null);
-    const [isCheckingAuth, setIsCheckingAuth] = useState(false)
+    const [isCheckingAuth, setIsCheckingAuth] = useState(true)
     const [subjectsData, setSubjectsData] = useState([])
     const [notesData, setNotesData] = useState([])
 
