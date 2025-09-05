@@ -6,7 +6,7 @@ import SubjectDetails from './pages/SubjectDetails'
 import { Toaster } from 'react-hot-toast'
 
 
-export const backendUrl = 'http://localhost:5050' 
+export const backendUrl = 'https://paper-stack-finalproject-backend.onrender.com' 
 
 function App() {
   return (
