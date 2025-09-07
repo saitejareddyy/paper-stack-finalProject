@@ -10,6 +10,8 @@ function LoginPage() {
 	const [username, setUsername] = useState("")
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
+	const [userType, setUsertype] = useState("user")
+	const [secretKey, setSecretKey] = useState("")
 
 	const navigate = useNavigate()
 	const { setUser } = useStore()
@@ -19,9 +21,9 @@ function LoginPage() {
 
 		try {
 			const endpoint = isLogin ? `${backendUrl}/api/v1/auth/login` : `${backendUrl}/api/v1/auth/register`
-			const payload = isLogin ? { email, password } : { username, email, password }
+			const payload = isLogin ? { email, password } : { username, email, password, userType, secretKey }
 
-			const { data } = await axios.post(endpoint, payload,  { withCredentials: true })
+			const { data } = await axios.post(endpoint, payload, { withCredentials: true })
 
 			if (data.success) {
 				setUser(data.user)
@@ -39,6 +41,7 @@ function LoginPage() {
 		setUsername("")
 		setEmail("")
 		setPassword("")
+		setSecretKey("")
 	}
 
 	return (
@@ -95,6 +98,44 @@ function LoginPage() {
 							className="w-full px-3 py-2 border rounded-lg focus:outline-none placeholder:text-[12px] text-black"
 						/>
 					</div>
+					{!isLogin && (
+						<div className="mb-4 flex items-center justify-around">
+							<label className="flex items-center space-x-2">
+								<input
+									type="radio"
+									name="userType"
+									value="user"
+									checked={userType === "user"}
+									onChange={(e) => setUsertype(e.target.value)}
+									className="accent-black w-4 h-4 cursor-pointer"
+								/>
+								<span className="text-black text-sm">User</span>
+							</label>
+
+							<label className="flex items-center space-x-2">
+								<input
+									type="radio"
+									name="userType"
+									value="admin"
+									checked={userType === "admin"}
+									onChange={(e) => setUsertype(e.target.value)}
+									className="accent-black w-4 h-4 cursor-pointer"
+								/>
+								<span className="text-black text-sm">Admin</span>
+							</label>
+						</div>
+					)}
+
+					{userType === "admin" && !isLogin && <div className="mb-4">
+						<input
+							id="password"
+							type="password"
+							value={secretKey}
+							onChange={(e) => setSecretKey(e.target.value)}
+							placeholder="secret key"
+							className="w-full px-3 py-2 border rounded-lg focus:outline-none placeholder:text-[12px] text-black"
+						/>
+					</div>}
 					<button
 						type="submit"
 						className="w-full bg-[#000000] text-white py-3 rounded-lg hover:bg-[#1e1e1e] transition cursor-pointer text-[14px] font-semibold"
