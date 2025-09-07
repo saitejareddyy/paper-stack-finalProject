@@ -24,9 +24,11 @@ function SubjectDetails() {
 
     if (!subjectData) {
         return (
-            <div className="h-screen flex items-center justify-center bg-[#1E1E1E] text-white">
-                Loading...
-            </div>
+            <div className="h-screen">
+				<div className="flex justify-center items-center bg-black h-full">
+					<Loader className="animate-spin text-[#24CFA6] w-10 h-10" />
+				</div>
+			</div>
         );
     }
 
