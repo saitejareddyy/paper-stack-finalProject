@@ -30,7 +30,6 @@ function SubjectCard({ id, branch, image, title, onClick, setSubjectsData }) {
         <div className="mb-5">
             {/* Card */}
             <div
-                onClick={onClick}
                 className="w-[300px] h-[270px] rounded-lg bg-[#1e1e1e] cursor-pointer"
             >
                 {/* Image */}
@@ -39,6 +38,7 @@ function SubjectCard({ id, branch, image, title, onClick, setSubjectsData }) {
                         src={image}
                         alt={title}
                         onError={() => setImgError(true)}
+                         onClick={onClick}
                         className="w-full h-[60%] object-cover rounded-t-lg"
                     />
                 ) : (
