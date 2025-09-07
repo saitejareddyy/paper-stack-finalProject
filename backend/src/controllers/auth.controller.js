@@ -4,9 +4,9 @@ import { generateToken } from "../utils/generateTokenAndSetCookie.js";
 const register = async (req, res) => {
 
     try {
-        const {username, email, password} = req.body;
+        const {username, email, password, userType, secretKey} = req.body;
     
-        if(!username || !email || !password){
+        if(!username || !email || !password || !userType){
             return res.status(500).json({success: false, message: "All fields are required"})
         }
     
@@ -31,16 +31,24 @@ const register = async (req, res) => {
         if(existedUserByusername){
             return res.status(400).json({success: true, message: "Username already exist"})
         }
+
+        if(userType.toString() === "admin" && secretKey.toString() !== process.env.ADMIN_SECRET_KEY.toString()){
+            console.log("secret key: ",secretKey)
+            console.log("expected key: ", process.env.ADMIN_SECRET_KEY)
+            console.log("user type: ", userType)
+            return res.status(404).json({success: false, message: "Invalid secret key"})
+        }
     
         const newUser = await User.create({
             username,
             email,
-            password
+            password,
+            userType
         })
     
         generateToken(newUser._id, res);
     
-        res.status(200).json({success :true, user: {...newUser._doc, password: ""}, message: "User reistered successfully"})
+        res.status(200).json({success :true, user: {...newUser._doc, password: ""}, message: `${userType} reistered successfully`})
     } catch (error) {
         console.log("Error in the register controller: ", error.message);
         res.status(500).json({success: false, message: "Internal server error"})
