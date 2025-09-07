@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom"
 import { ListFilter } from "lucide-react"
 
 function HomePage() {
-    const { subjectsData } = useStore()
+    const { subjectsData, setSubjectsData } = useStore()
     const navigate = useNavigate()
 
     const [selectedBranch, setSelectedBranch] = useState("ALL")
@@ -63,10 +63,12 @@ function HomePage() {
                     {filteredSubjects.map((eachSub) => (
                         <SubjectCard
                             key={eachSub._id}
+                            id={eachSub._id}
                             branch={eachSub.branch}
                             image={eachSub.image}
                             title={eachSub.title}
                             onClick={() => navigate(`/subject/${eachSub._id}`)}
+                            setSubjectsData={setSubjectsData} 
                         />
                     ))}
                 </div>
