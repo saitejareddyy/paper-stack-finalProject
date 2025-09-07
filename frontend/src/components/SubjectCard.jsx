@@ -1,7 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { backendUrl } from "../App";
+import axios from "axios";
+import toast from "react-hot-toast";
+import useStore from "../context/UseStore";
+import { Trash2 } from "lucide-react";
 
-function SubjectCard({ branch, image, title, onClick }) {
+function SubjectCard({ id, branch, image, title, onClick, setSubjectsData }) {
     const [imgError, setImgError] = useState(false);
+
+    const { user } = useStore()
+
+    const handleDeleteSubject = async () => {
+        try {
+            const response = await axios.delete(`${backendUrl}/api/v1/subject/${id}`, { withCredentials: true })
+            if (response.data.success) {
+                toast.success(response.data.message)
+                setSubjectsData(prev => prev.filter(sub => sub._id !== id));
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
+    useEffect(() => {
+
+    }, [id])
 
     return (
         <div className="mb-5">
@@ -25,10 +48,19 @@ function SubjectCard({ branch, image, title, onClick }) {
                 )}
 
                 {/* Text */}
-                <header className="pt-5 pl-5 text-[aquamarine]">
-                    <span className="text-white">Subject: </span>{title}
-                </header>
-                <p className="pl-5 text-white"> Branch:  <span className="text-[#27E0B3]">{branch}</span></p>
+                <div className="flex items-center justify-around">
+                    <div>
+                        <header className="pt-5 text-[aquamarine]">
+                            <span className="text-white">Subject: </span>{title}
+                        </header>
+                        <p className=" text-white"> Branch:  <span className="text-[#27E0B3]">{branch}</span></p>
+                    </div>
+                    {user.userType === "admin" && <button onClick={() => {
+                        handleDeleteSubject();
+                    }}>
+                        <Trash2 className="text-red-500" />
+                    </button>}
+                </div>
             </div>
 
             {/* Button */}
