@@ -10,6 +10,7 @@ import SubjectDetails from "./pages/SubjectDetails";
 import Header from './components/Header'
 import DisplayNotes from "./pages/DisplayNotes";
 import UploadNotes from "./pages/UploadNotes";
+import UploadSubject from "./pages/UploadSubject";
 
 export const backendUrl = "https://paper-stack-finalproject-backend.onrender.com"
 
@@ -39,10 +40,6 @@ function App() {
 		checkAuth();
 	}, []);
 
-	useEffect(() => {
-		console.log("after reload user: ", user);
-	}, [user]);
-
 	if (isCheckingAuth) {
 		return (
 			<div className="h-screen">
@@ -62,6 +59,7 @@ function App() {
 				<Route path="/subject/:id" element={ user ? <SubjectDetails /> : <Navigate to="/login" />} />
 				<Route path="/notes" element={ user ? <DisplayNotes /> : <Navigate to="/login" />} />
 				<Route path="/upload-notes" element={ user ? <UploadNotes /> : <Navigate to="/login" />} />
+				<Route path="/upload-subject" element={ user ? <UploadSubject /> : <Navigate to="/login" />} />
 			</Routes>
 			<Toaster />
 		</div>
