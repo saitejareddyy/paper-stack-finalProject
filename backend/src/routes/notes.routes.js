@@ -4,6 +4,7 @@ import {
     addNotes,
     deleteComment,
     deleteNotes,
+    getNoteComments,
     getNotesData,
     removeNotes,
     toggleLikeOnNote,
@@ -19,6 +20,7 @@ notesRouter.delete("/:id/delete", deleteNotes);
 notesRouter.get("/getNotes", propectedRoute, getNotesData);
 notesRouter.put("/:id/isliked", propectedRoute, toggleLikeOnNote);
 notesRouter.put("/comment", propectedRoute, addComment);
+notesRouter.get("/:noteId/comments", getNoteComments)
 notesRouter.post("/deleteComment", propectedRoute, deleteComment);
 
 export { notesRouter };
