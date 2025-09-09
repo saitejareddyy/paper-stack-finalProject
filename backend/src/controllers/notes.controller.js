@@ -61,7 +61,7 @@ const removeNotes = async (req, res) => {
                 .json({ success: false, message: "Uploader info missing" });
         }
 
-        if (data.uploadedBy.toString() !== user._id.toString()) {
+        if (data.uploadedBy.toString() !== user._id.toString() && user.userType !== "admin") {
             return res
                 .status(400)
                 .json({ success: false, message: "only uploaded user can delete" });
@@ -191,9 +191,10 @@ const addComment = async (req, res) => {
         res
             .status(200)
             .json({
-                success: false,
+                success: true,
                 message: "Comment added successfully",
-                comments: note.comments,
+                comment: note.comments[note.comments.length - 1],
+                comments: note.comments
             });
     } catch (error) {
         console.log("Error in the addComment controller: ", error.message);
@@ -223,9 +224,9 @@ const deleteComment = async (req, res) => {
                 .json({ success: false, message: "comment not found" });
         }
 
-        if (comment.user.toString() !== userId.toString()) {
+        if (comment.user._id.toString() !== userId.toString() && req.user.userType !== "admin") {
             return res
-                .status(404)
+                .status(403)
                 .json({
                     success: false,
                     message: "Not authorized to delete this comment",
@@ -240,12 +241,40 @@ const deleteComment = async (req, res) => {
 
         res
             .status(200)
-            .json({ success: true, message: "comment delete successfully" });
+            .json({ success: true, comments: note.comments, message: "comment delete successfully" });
     } catch (error) {
         console.log("Error in the delete comment controller: ", error.message);
-        res.status(500).json({ success: true, message: "Internal server error" });
+        res.status(500).json({ success: false, message: "Internal server error" });
     }
 };
+
+
+const getNoteComments = async (req, res) => {
+  try {
+    const { noteId } = req.params;
+
+    const note = await Note.findById(noteId).populate({
+      path: "comments.user", 
+      select: "username email", 
+    });
+
+    if (!note) {
+      return res.status(404).json({ success: false, message: "Note not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      comments: note.comments,
+    });
+  } catch (error) {
+    console.error("Error fetching comments:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
 
 export {
     addNotes,
@@ -255,4 +284,5 @@ export {
     toggleLikeOnNote,
     addComment,
     deleteComment,
+    getNoteComments
 };
